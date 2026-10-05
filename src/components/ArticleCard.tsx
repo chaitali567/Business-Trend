@@ -20,23 +20,27 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
     onSelect(article.slug);
   };
 
-  // 1. FEATURED CARD (Asymmetrical, dominant layout)
+  // 1. FEATURED CARD (Side by side on desktop, stacked with image on top on mobile)
   if (variant === 'featured') {
     return (
       <article
         onClick={handleClick}
-        className="group cursor-pointer grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-stretch bg-white border border-[#e6e5df] p-6 sm:p-8 hover:border-stone-400 transition-colors duration-200"
+        className="group cursor-pointer grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 items-center bg-white border border-[#e6e5df] p-5 sm:p-7 lg:p-8 hover:border-stone-400 transition-colors duration-200 w-full min-w-0 overflow-hidden"
       >
-        <div className="lg:col-span-7 overflow-hidden aspect-[16/10] bg-stone-100 relative">
-          <img
-            src={article.heroImage}
-            alt={article.heroImageAlt}
-            loading="lazy"
-            className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-500 ease-out"
-          />
+        {/* Image Column */}
+        <div className="w-full md:col-span-6 min-w-0 max-w-full overflow-hidden shrink-0">
+          <div className="w-full aspect-[16/10] overflow-hidden bg-stone-100 relative min-w-0 max-w-full rounded-[2px]">
+            <img
+              src={article.heroImage}
+              alt={article.heroImageAlt}
+              loading="lazy"
+              className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-500 ease-out block"
+            />
+          </div>
         </div>
 
-        <div className="lg:col-span-5 flex flex-col justify-between py-1 space-y-4">
+        {/* Text Column */}
+        <div className="w-full md:col-span-6 min-w-0 flex flex-col justify-between py-1 space-y-4">
           <div className="space-y-3">
             {/* Category Eyebrow */}
             <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.14em] text-[#d9381e]">
@@ -45,12 +49,12 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
               <span className="text-stone-500 font-medium tracking-normal">Lead Analysis</span>
             </div>
 
-            {/* Contemporary Sans Headline */}
-            <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl text-[#121211] group-hover:text-[#d9381e] transition-colors leading-[1.15]">
+            {/* Headline */}
+            <h2 className="font-display text-xl sm:text-2xl lg:text-3xl text-[#121211] group-hover:text-[#d9381e] transition-colors leading-[1.18] break-words">
               {article.title}
             </h2>
 
-            <p className="text-stone-600 text-sm sm:text-base leading-relaxed line-clamp-3">
+            <p className="text-stone-600 text-xs sm:text-sm leading-relaxed line-clamp-3">
               {article.shortDescription}
             </p>
           </div>
@@ -72,30 +76,34 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
     );
   }
 
-  // 2. HORIZONTAL EDITORIAL CARD
+  // 2. HORIZONTAL EDITORIAL CARD (Side by side on desktop, stacked on mobile)
   if (variant === 'horizontal') {
     return (
       <article
         onClick={handleClick}
-        className="group cursor-pointer grid grid-cols-1 sm:grid-cols-12 gap-5 items-center pb-6 border-b border-[#e6e5df] transition-colors"
+        className="group cursor-pointer grid grid-cols-1 sm:grid-cols-12 gap-4 sm:gap-5 items-center pb-6 border-b border-[#e6e5df] transition-colors w-full min-w-0 overflow-hidden"
       >
-        <div className="sm:col-span-4 overflow-hidden aspect-[16/10] bg-stone-100 relative">
-          <img
-            src={article.heroImage}
-            alt={article.heroImageAlt}
-            loading="lazy"
-            className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-500 ease-out"
-          />
+        {/* Image Column */}
+        <div className="w-full sm:col-span-5 min-w-0 max-w-full overflow-hidden shrink-0">
+          <div className="w-full aspect-[16/10] overflow-hidden bg-stone-100 relative min-w-0 max-w-full rounded-[2px]">
+            <img
+              src={article.heroImage}
+              alt={article.heroImageAlt}
+              loading="lazy"
+              className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-500 ease-out block"
+            />
+          </div>
         </div>
 
-        <div className="sm:col-span-8 space-y-2">
+        {/* Text Column */}
+        <div className="w-full sm:col-span-7 min-w-0 space-y-2">
           <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.14em] text-[#d9381e]">
             <span>{article.category}</span>
             <span className="text-stone-300">/</span>
             <span className="text-stone-500 font-normal tracking-normal">{article.readTime}</span>
           </div>
 
-          <h3 className="font-display text-lg sm:text-xl text-[#121211] group-hover:text-[#d9381e] transition-colors leading-snug">
+          <h3 className="font-display text-base sm:text-lg text-[#121211] group-hover:text-[#d9381e] transition-colors leading-snug break-words">
             {article.title}
           </h3>
 
@@ -118,20 +126,20 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
     return (
       <article
         onClick={handleClick}
-        className="group cursor-pointer py-4 border-b border-[#e6e5df] flex items-start gap-4 transition-colors hover:border-stone-400"
+        className="group cursor-pointer py-4 border-b border-[#e6e5df] flex items-start gap-4 transition-colors hover:border-stone-400 w-full min-w-0"
       >
         <span className="font-mono text-sm sm:text-base font-bold text-stone-400 group-hover:text-[#d9381e] transition-colors pt-0.5 shrink-0">
           {formattedNumber}
         </span>
 
-        <div className="flex-1 space-y-1">
+        <div className="flex-1 min-w-0 space-y-1">
           <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.14em] text-[#d9381e]">
             <span>{article.category}</span>
             <span className="text-stone-300">/</span>
             <span className="text-stone-500 font-normal tracking-normal">{article.readTime}</span>
           </div>
 
-          <h3 className="font-display text-base sm:text-lg text-[#121211] group-hover:text-[#d9381e] transition-colors leading-snug">
+          <h3 className="font-display text-base sm:text-lg text-[#121211] group-hover:text-[#d9381e] transition-colors leading-snug break-words">
             {article.title}
           </h3>
 
@@ -150,7 +158,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
     return (
       <article
         onClick={handleClick}
-        className="group cursor-pointer py-3.5 border-b border-[#e6e5df] space-y-1.5 transition-colors"
+        className="group cursor-pointer py-3.5 border-b border-[#e6e5df] space-y-1.5 transition-colors w-full min-w-0"
       >
         <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.14em] text-[#d9381e]">
           <span>{article.category}</span>
@@ -158,7 +166,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
           <span className="text-stone-400 font-normal tracking-normal">{article.readTime}</span>
         </div>
 
-        <h4 className="font-display text-sm sm:text-base text-[#121211] group-hover:text-[#d9381e] transition-colors leading-snug">
+        <h4 className="font-display text-sm sm:text-base text-[#121211] group-hover:text-[#d9381e] transition-colors leading-snug break-words">
           {article.title}
         </h4>
 
@@ -173,18 +181,18 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
   return (
     <article
       onClick={handleClick}
-      className="group cursor-pointer flex flex-col bg-white border border-[#e6e5df] hover:border-stone-400 transition-colors duration-200 h-full"
+      className="group cursor-pointer flex flex-col bg-white border border-[#e6e5df] hover:border-stone-400 transition-colors duration-200 h-full w-full min-w-0 overflow-hidden"
     >
-      <div className="overflow-hidden aspect-[16/10] bg-stone-100 relative">
+      <div className="w-full aspect-[16/10] overflow-hidden bg-stone-100 relative min-w-0 max-w-full shrink-0">
         <img
           src={article.heroImage}
           alt={article.heroImageAlt}
           loading="lazy"
-          className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-500 ease-out"
+          className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-500 ease-out block"
         />
       </div>
 
-      <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between space-y-3">
+      <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between space-y-3 min-w-0">
         <div className="space-y-2">
           {/* Eyebrow */}
           <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.14em] text-[#d9381e]">
@@ -197,7 +205,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
           </div>
 
           {/* Contemporary Sans Title */}
-          <h3 className="font-display text-lg sm:text-xl text-[#121211] group-hover:text-[#d9381e] transition-colors leading-snug">
+          <h3 className="font-display text-lg sm:text-xl text-[#121211] group-hover:text-[#d9381e] transition-colors leading-snug break-words">
             {article.title}
           </h3>
 

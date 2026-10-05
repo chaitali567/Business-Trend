@@ -239,7 +239,7 @@ export const HomePage: React.FC<HomePageProps> = ({
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            <div className="lg:col-span-7">
+            <div className="lg:col-span-7 min-w-0 w-full">
               <ArticleCard
                 article={internetArticles[0]}
                 onSelect={onSelectArticle}
@@ -247,7 +247,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               />
             </div>
 
-            <div className="lg:col-span-5 space-y-4">
+            <div className="lg:col-span-5 min-w-0 w-full space-y-4">
               <div className="bg-stone-50 p-6 border border-[#e6e5df] space-y-3">
                 <span className="text-[11px] font-mono uppercase tracking-[0.16em] text-[#d9381e] font-bold">
                   The Zero-CAC Moat
