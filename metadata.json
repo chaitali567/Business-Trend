@@ -1,0 +1,6 @@
+{
+  "name": "The Business Behind the Trend",
+  "description": "Why things become popular — and who makes money from them. An editorial publication exploring business strategy, consumer psychology, and modern cultural trends.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,131 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-serif: "Newsreader", Georgia, serif;
+  --font-mono: "JetBrains Mono", monospace;
+  --color-ink: #121211;
+  --color-paper: #fbfbfa;
+  --color-surface: #ffffff;
+  --color-surface-subtle: #f5f5f2;
+  --color-border-subtle: #e6e5df;
+  --color-border-strong: #121211;
+  --color-accent: #d9381e;
+  --color-accent-hover: #bd2c15;
+}
+
+/* Base resets & typography */
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  letter-spacing: -0.011em;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Contemporary headline utility */
+.font-display {
+  font-family: var(--font-sans);
+  letter-spacing: -0.035em;
+  font-weight: 700;
+}
+
+/* Small accent serif for editorial pull quotes only */
+.font-accent-serif {
+  font-family: var(--font-serif);
+}
+
+/* Contemporary editorial article typography */
+.prose-editorial {
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: #2b2926;
+  max-width: 68ch;
+}
+
+.prose-editorial p {
+  margin-bottom: 1.625rem;
+}
+
+.prose-editorial h2 {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 1.5rem;
+  line-height: 1.25;
+  letter-spacing: -0.03em;
+  margin-top: 3rem;
+  margin-bottom: 1.125rem;
+  color: #121211;
+  padding-bottom: 0.625rem;
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.prose-editorial h3 {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 1.25rem;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
+  margin-top: 2.25rem;
+  margin-bottom: 0.875rem;
+  color: #121211;
+}
+
+.prose-editorial blockquote {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.25rem;
+  line-height: 1.55;
+  border-left: 2px solid var(--color-accent);
+  padding-left: 1.5rem;
+  margin: 2.25rem 0;
+  color: #1a1918;
+}
+
+.prose-editorial ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 1.625rem;
+  line-height: 1.75;
+}
+
+.prose-editorial ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+  margin-bottom: 1.625rem;
+  line-height: 1.75;
+}
+
+.prose-editorial li {
+  margin-bottom: 0.5rem;
+}
+
+.prose-editorial strong {
+  font-weight: 600;
+  color: #121211;
+}
+
+/* Micro-interactions & animated underlines */
+.hover-underline-animation {
+  position: relative;
+}
+
+.hover-underline-animation::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 1.5px;
+  bottom: -2px;
+  left: 0;
+  background-color: var(--color-accent);
+  transform-origin: bottom right;
+  transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.hover-underline-animation:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
