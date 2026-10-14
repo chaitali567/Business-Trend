@@ -1,26 +1,33 @@
 import React from 'react';
-import { ArrowUp } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
 import { CATEGORIES } from '../data/articles';
+import { ArrowUp } from 'lucide-react';
 
 interface FooterProps {
-  onNavigate: (path: string) => void;
+  onNavigate?: (path: string) => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
+  const navigate = useNavigate();
+
+  const handleNav = (path: string) => {
+    if (onNavigate) {
+      onNavigate(path);
+    } else {
+      navigate(path);
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleNav = (path: string) => {
-    onNavigate(path);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
   return (
-    <footer className="bg-[#121211] text-[#e6e5df] pt-14 pb-12 border-t border-stone-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 border-b border-stone-800">
-          {/* Brand Column */}
+    <footer className="bg-[#121211] text-white border-t border-stone-800 pt-16 pb-12 mt-auto">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 pb-12 border-b border-stone-800">
+          {/* Col 1: Brand & Tagline */}
           <div className="md:col-span-5 space-y-3">
             <h2 className="font-display text-xl sm:text-2xl text-white uppercase tracking-tight">
               The Business Behind the Trend
@@ -41,36 +48,40 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             </h3>
             <ul className="space-y-2 text-xs text-stone-300">
               <li>
-                <button
+                <Link
+                  to="/"
                   onClick={() => handleNav('/')}
-                  className="hover:text-white transition-colors cursor-pointer"
+                  className="hover:text-white transition-colors block"
                 >
                   Front Page
-                </button>
+                </Link>
               </li>
               <li>
-                <button
+                <Link
+                  to="/articles"
                   onClick={() => handleNav('/articles')}
-                  className="hover:text-white transition-colors cursor-pointer"
+                  className="hover:text-white transition-colors block"
                 >
                   All 10 Case Studies
-                </button>
+                </Link>
               </li>
               <li>
-                <button
+                <Link
+                  to="/categories"
                   onClick={() => handleNav('/categories')}
-                  className="hover:text-white transition-colors cursor-pointer"
+                  className="hover:text-white transition-colors block"
                 >
                   Topic Directory
-                </button>
+                </Link>
               </li>
               <li>
-                <button
+                <Link
+                  to="/about"
                   onClick={() => handleNav('/about')}
-                  className="hover:text-white transition-colors cursor-pointer"
+                  className="hover:text-white transition-colors block"
                 >
                   Editorial Manifesto
-                </button>
+                </Link>
               </li>
             </ul>
           </div>
@@ -82,13 +93,14 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             </h3>
             <div className="grid grid-cols-1 gap-1.5 text-xs text-stone-300">
               {CATEGORIES.slice(0, 6).map((cat) => (
-                <button
+                <Link
                   key={cat}
+                  to={`/categories/${encodeURIComponent(cat)}`}
                   onClick={() => handleNav(`/categories/${encodeURIComponent(cat)}`)}
-                  className="text-left hover:text-white transition-colors cursor-pointer truncate"
+                  className="text-left hover:text-white transition-colors truncate block"
                 >
                   {cat}
-                </button>
+                </Link>
               ))}
             </div>
           </div>
@@ -118,12 +130,12 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-[11px] text-stone-500 gap-4">
           <p>© {new Date().getFullYear()} The Business Behind the Trend. Founded & published by Chaitali Kalal.</p>
           <div className="flex items-center space-x-6">
-            <button onClick={() => handleNav('/about')} className="hover:text-stone-300 cursor-pointer">
+            <Link to="/about" onClick={() => handleNav('/about')} className="hover:text-stone-300">
               Ethics & Rigor
-            </button>
-            <button onClick={() => handleNav('/articles')} className="hover:text-stone-300 cursor-pointer">
+            </Link>
+            <Link to="/articles" onClick={() => handleNav('/articles')} className="hover:text-stone-300">
               Archive
-            </button>
+            </Link>
             <span className="text-stone-600 font-mono">Designed for GitHub & Vercel</span>
           </div>
         </div>

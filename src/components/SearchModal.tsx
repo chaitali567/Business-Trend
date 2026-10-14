@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Search, X, ArrowRight, Clock, FileText } from 'lucide-react';
 import { ARTICLES } from '../data/articles';
 import { Article } from '../types';
@@ -6,7 +7,7 @@ import { Article } from '../types';
 interface SearchModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSelectArticle: (slug: string) => void;
+  onSelectArticle?: (slug: string) => void;
 }
 
 export const SearchModal: React.FC<SearchModalProps> = ({
@@ -14,6 +15,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
   onClose,
   onSelectArticle,
 }) => {
+  const navigate = useNavigate();
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<Article[]>(ARTICLES);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -78,9 +80,14 @@ export const SearchModal: React.FC<SearchModalProps> = ({
   if (!isOpen) return null;
 
   const handleSelect = (slug: string) => {
-    onSelectArticle(slug);
+    if (onSelectArticle) {
+      onSelectArticle(slug);
+    } else {
+      navigate(`/${slug}`);
+    }
     onClose();
     setQuery('');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (

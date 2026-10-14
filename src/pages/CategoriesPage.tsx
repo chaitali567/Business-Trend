@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Article, Category } from '../types';
 import { CATEGORIES } from '../data/articles';
 import { ArticleCard } from '../components/ArticleCard';
@@ -6,7 +7,7 @@ import { Layers } from 'lucide-react';
 
 interface CategoriesPageProps {
   articles: Article[];
-  onSelectArticle: (slug: string) => void;
+  onSelectArticle?: (slug: string) => void;
   activeCategory?: string | null;
   onSelectCategory?: (category: string) => void;
 }
@@ -36,17 +37,42 @@ export const CategoriesPage: React.FC<CategoriesPageProps> = ({
   activeCategory = null,
   onSelectCategory,
 }) => {
-  const [selectedCat, setSelectedCat] = useState<string | null>(activeCategory);
+  const { category: paramCategory } = useParams<{ category?: string }>();
+  const navigate = useNavigate();
+
+  const [selectedCat, setSelectedCat] = useState<string | null>(() => {
+    if (paramCategory) return decodeURIComponent(paramCategory);
+    return activeCategory;
+  });
+
+  useEffect(() => {
+    if (paramCategory) {
+      setSelectedCat(decodeURIComponent(paramCategory));
+    } else if (activeCategory !== undefined) {
+      setSelectedCat(activeCategory);
+    }
+  }, [paramCategory, activeCategory]);
 
   const matchingArticles = articles.filter(
     (a) => !selectedCat || a.category === selectedCat
   );
 
   const handleCategoryClick = (cat: string) => {
-    setSelectedCat(cat);
+    if (selectedCat === cat) {
+      setSelectedCat(null);
+      navigate('/categories');
+    } else {
+      setSelectedCat(cat);
+      navigate(`/categories/${encodeURIComponent(cat)}`);
+    }
     if (onSelectCategory) {
       onSelectCategory(cat);
     }
+  };
+
+  const handleClearCategory = () => {
+    setSelectedCat(null);
+    navigate('/categories');
   };
 
   return (
@@ -108,7 +134,7 @@ export const CategoriesPage: React.FC<CategoriesPageProps> = ({
               Selected Vertical
             </span>
             <button
-              onClick={() => setSelectedCat(null)}
+              onClick={handleClearCategory}
               className="text-xs text-stone-500 hover:text-stone-900 underline cursor-pointer"
             >
               Show all cases

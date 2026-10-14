@@ -1,20 +1,32 @@
 import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Article } from '../types';
 import { ArticleCard } from '../components/ArticleCard';
 import { NewsletterBox } from '../components/NewsletterBox';
-import { ArrowRight, ArrowUpRight, TrendingUp, Briefcase, Brain, Share2, Compass, Layers } from 'lucide-react';
+import { ArrowRight, ArrowUpRight } from 'lucide-react';
 
 interface HomePageProps {
   articles: Article[];
-  onSelectArticle: (slug: string) => void;
-  onNavigate: (path: string) => void;
+  onSelectArticle?: (slug: string) => void;
+  onNavigate?: (path: string) => void;
 }
 
 export const HomePage: React.FC<HomePageProps> = ({
   articles,
   onSelectArticle,
-  onNavigate,
+  onNavigate: propNavigate,
 }) => {
+  const navigate = useNavigate();
+
+  const handleNav = (path: string) => {
+    if (propNavigate) {
+      propNavigate(path);
+    } else {
+      navigate(path);
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   // Featured lead story (Matcha)
   const featuredArticle = articles.find((a) => a.slug === 'why-is-matcha-suddenly-everywhere') || articles[0];
 
@@ -70,20 +82,22 @@ export const HomePage: React.FC<HomePageProps> = ({
               </p>
 
               <div className="flex items-center gap-4 pt-1">
-                <button
-                  onClick={() => onNavigate('/articles')}
+                <Link
+                  to="/articles"
+                  onClick={() => handleNav('/articles')}
                   className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider bg-[#121211] text-white px-4 py-2.5 hover:bg-[#d9381e] transition-colors cursor-pointer rounded-[2px]"
                 >
                   <span>Explore All 10 Cases</span>
                   <ArrowRight className="w-3.5 h-3.5" />
-                </button>
+                </Link>
 
-                <button
-                  onClick={() => onNavigate('/about')}
+                <Link
+                  to="/about"
+                  onClick={() => handleNav('/about')}
                   className="text-xs font-semibold text-stone-600 hover:text-[#121211] transition-colors py-2"
                 >
                   About Manifesto →
-                </button>
+                </Link>
               </div>
             </div>
           </div>
@@ -120,13 +134,14 @@ export const HomePage: React.FC<HomePageProps> = ({
                 Trending Now
               </h2>
             </div>
-            <button
-              onClick={() => onNavigate('/categories/Viral%20Trends')}
+            <Link
+              to="/categories/Viral%20Trends"
+              onClick={() => handleNav('/categories/Viral%20Trends')}
               className="text-xs font-semibold text-stone-500 hover:text-[#d9381e] transition-colors flex items-center gap-1"
             >
               <span>View Viral Index</span>
               <ArrowUpRight className="w-3 h-3" />
-            </button>
+            </Link>
           </div>
 
           {/* Asymmetrical 2-column: 1 Horizontal Lead + 1 Numbered list */}
@@ -200,13 +215,14 @@ export const HomePage: React.FC<HomePageProps> = ({
               Why We Buy
             </h2>
           </div>
-          <button
-            onClick={() => onNavigate('/categories/Consumer%20Psychology')}
+          <Link
+            to="/categories/Consumer%20Psychology"
+            onClick={() => handleNav('/categories/Consumer%20Psychology')}
             className="text-xs font-semibold text-stone-500 hover:text-[#d9381e] transition-colors flex items-center gap-1"
           >
             <span>All Psychology Cases</span>
             <ArrowUpRight className="w-3 h-3" />
-          </button>
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
@@ -281,12 +297,13 @@ export const HomePage: React.FC<HomePageProps> = ({
               Complete Editorial Collection
             </h2>
           </div>
-          <button
-            onClick={() => onNavigate('/articles')}
+          <Link
+            to="/articles"
+            onClick={() => handleNav('/articles')}
             className="text-xs font-bold uppercase tracking-wider text-[#d9381e] hover:underline"
           >
             Open Filtered Search →
-          </button>
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-2 divide-y md:divide-y-0 divide-[#e6e5df]">

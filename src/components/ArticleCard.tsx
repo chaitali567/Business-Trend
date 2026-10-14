@@ -1,10 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Article } from '../types';
 import { ArrowUpRight, Clock } from 'lucide-react';
 
 interface ArticleCardProps {
   article: Article;
-  onSelect: (slug: string) => void;
+  onSelect?: (slug: string) => void;
   variant?: 'standard' | 'horizontal' | 'compact' | 'featured' | 'numbered';
   indexNumber?: number;
 }
@@ -15,17 +16,22 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
   variant = 'standard',
   indexNumber,
 }) => {
-  const handleClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    onSelect(article.slug);
+  const handleClick = () => {
+    if (onSelect) {
+      onSelect(article.slug);
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  const articleUrl = `/${article.slug}`;
 
   // 1. FEATURED CARD (Side by side on desktop, stacked with image on top on mobile)
   if (variant === 'featured') {
     return (
-      <article
+      <Link
+        to={articleUrl}
         onClick={handleClick}
-        className="group cursor-pointer grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 items-center bg-white border border-[#e6e5df] p-5 sm:p-7 lg:p-8 hover:border-stone-400 transition-colors duration-200 w-full min-w-0 overflow-hidden"
+        className="group cursor-pointer grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 items-center bg-white border border-[#e6e5df] p-5 sm:p-7 lg:p-8 hover:border-stone-400 transition-colors duration-200 w-full min-w-0 overflow-hidden block"
       >
         {/* Image Column */}
         <div className="w-full md:col-span-6 min-w-0 max-w-full overflow-hidden shrink-0">
@@ -72,16 +78,17 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
             </span>
           </div>
         </div>
-      </article>
+      </Link>
     );
   }
 
   // 2. HORIZONTAL EDITORIAL CARD (Side by side on desktop, stacked on mobile)
   if (variant === 'horizontal') {
     return (
-      <article
+      <Link
+        to={articleUrl}
         onClick={handleClick}
-        className="group cursor-pointer grid grid-cols-1 sm:grid-cols-12 gap-4 sm:gap-5 items-center pb-6 border-b border-[#e6e5df] transition-colors w-full min-w-0 overflow-hidden"
+        className="group cursor-pointer grid grid-cols-1 sm:grid-cols-12 gap-4 sm:gap-5 items-center pb-6 border-b border-[#e6e5df] transition-colors w-full min-w-0 overflow-hidden block"
       >
         {/* Image Column */}
         <div className="w-full sm:col-span-5 min-w-0 max-w-full overflow-hidden shrink-0">
@@ -116,7 +123,7 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
             <span className="text-stone-400 font-medium">{article.readTime}</span>
           </div>
         </div>
-      </article>
+      </Link>
     );
   }
 
@@ -124,9 +131,10 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
   if (variant === 'numbered') {
     const formattedNumber = indexNumber !== undefined ? String(indexNumber).padStart(2, '0') : '01';
     return (
-      <article
+      <Link
+        to={articleUrl}
         onClick={handleClick}
-        className="group cursor-pointer py-4 border-b border-[#e6e5df] flex items-start gap-4 transition-colors hover:border-stone-400 w-full min-w-0"
+        className="group cursor-pointer py-4 border-b border-[#e6e5df] flex items-start gap-4 transition-colors hover:border-stone-400 w-full min-w-0 block"
       >
         <span className="font-mono text-sm sm:text-base font-bold text-stone-400 group-hover:text-[#d9381e] transition-colors pt-0.5 shrink-0">
           {formattedNumber}
@@ -149,16 +157,17 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
         </div>
 
         <ArrowUpRight className="w-4 h-4 text-stone-400 group-hover:text-[#d9381e] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform shrink-0 mt-1" />
-      </article>
+      </Link>
     );
   }
 
   // 4. COMPACT ROW (Minimal text-only card)
   if (variant === 'compact') {
     return (
-      <article
+      <Link
+        to={articleUrl}
         onClick={handleClick}
-        className="group cursor-pointer py-3.5 border-b border-[#e6e5df] space-y-1.5 transition-colors w-full min-w-0"
+        className="group cursor-pointer py-3.5 border-b border-[#e6e5df] space-y-1.5 transition-colors w-full min-w-0 block"
       >
         <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.14em] text-[#d9381e]">
           <span>{article.category}</span>
@@ -173,15 +182,16 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
         <p className="text-stone-600 text-xs line-clamp-2">
           {article.shortDescription}
         </p>
-      </article>
+      </Link>
     );
   }
 
   // 5. STANDARD GRID CARD (Clean 16/10 image with structured content below)
   return (
-    <article
+    <Link
+      to={articleUrl}
       onClick={handleClick}
-      className="group cursor-pointer flex flex-col bg-white border border-[#e6e5df] hover:border-stone-400 transition-colors duration-200 h-full w-full min-w-0 overflow-hidden"
+      className="group cursor-pointer flex flex-col bg-white border border-[#e6e5df] hover:border-stone-400 transition-colors duration-200 h-full w-full min-w-0 overflow-hidden block"
     >
       <div className="w-full aspect-[16/10] overflow-hidden bg-stone-100 relative min-w-0 max-w-full shrink-0">
         <img
@@ -219,6 +229,6 @@ export const ArticleCard: React.FC<ArticleCardProps> = ({
           <span className="text-stone-400 font-medium">{article.readTime}</span>
         </div>
       </div>
-    </article>
+    </Link>
   );
 };

@@ -6,7 +6,7 @@ import { Search, Filter, SlidersHorizontal, X, Calendar } from 'lucide-react';
 
 interface ArticlesPageProps {
   articles: Article[];
-  onSelectArticle: (slug: string) => void;
+  onSelectArticle?: (slug: string) => void;
   initialCategory?: string | null;
 }
 

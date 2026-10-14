@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Search, Menu, X, ArrowUpRight } from 'lucide-react';
 
 interface NavbarProps {
-  currentPath: string;
-  onNavigate: (path: string) => void;
+  currentPath?: string;
+  onNavigate?: (path: string) => void;
   onOpenSearch: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate, onOpenSearch }) => {
+export const Navbar: React.FC<NavbarProps> = ({ currentPath: propPath, onNavigate, onOpenSearch }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const currentPath = propPath || location.pathname;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -20,7 +25,11 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate, onOpenS
   }, []);
 
   const handleLinkClick = (path: string) => {
-    onNavigate(path);
+    if (onNavigate) {
+      onNavigate(path);
+    } else {
+      navigate(path);
+    }
     setMobileMenuOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -37,9 +46,10 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate, onOpenS
         <div className="flex items-center justify-between h-16 sm:h-18">
           {/* Brand Logo - Left */}
           <div className="flex items-center">
-            <button
+            <Link
+              to="/"
               onClick={() => handleLinkClick('/')}
-              className="text-left group cursor-pointer focus:outline-hidden"
+              className="text-left group cursor-pointer focus:outline-hidden block"
               aria-label="The Business Behind the Trend Homepage"
             >
               <span className="block font-display text-lg sm:text-xl tracking-tight text-[#121211] group-hover:text-[#d9381e] transition-colors uppercase">
@@ -48,35 +58,38 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate, onOpenS
               <span className="hidden sm:block text-[10px] uppercase tracking-[0.16em] text-stone-500 font-medium">
                 By Chaitali Kalal · Why Things Become Popular & Who Makes Money
               </span>
-            </button>
+            </Link>
           </div>
 
           {/* Desktop Navigation - Center / Right */}
           <nav className="hidden md:flex items-center space-x-7 text-[13px] font-medium tracking-tight text-stone-700">
-            <button
+            <Link
+              to="/articles"
               onClick={() => handleLinkClick('/articles')}
               className={`hover:text-[#121211] transition-colors py-1 cursor-pointer hover-underline-animation ${
                 currentPath === '/articles' ? 'text-[#121211] font-semibold text-[#d9381e]' : ''
               }`}
             >
               Latest
-            </button>
-            <button
+            </Link>
+            <Link
+              to="/categories"
               onClick={() => handleLinkClick('/categories')}
               className={`hover:text-[#121211] transition-colors py-1 cursor-pointer hover-underline-animation ${
                 currentPath.startsWith('/categories') ? 'text-[#121211] font-semibold text-[#d9381e]' : ''
               }`}
             >
               Categories
-            </button>
-            <button
+            </Link>
+            <Link
+              to="/about"
               onClick={() => handleLinkClick('/about')}
               className={`hover:text-[#121211] transition-colors py-1 cursor-pointer hover-underline-animation ${
                 currentPath === '/about' ? 'text-[#121211] font-semibold text-[#d9381e]' : ''
               }`}
             >
               About
-            </button>
+            </Link>
 
             {/* Subtle Divider */}
             <span className="text-stone-300 select-none">/</span>
@@ -133,30 +146,34 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, onNavigate, onOpenS
       {mobileMenuOpen && (
         <div className="md:hidden bg-[#fbfbfa] border-b border-[#e6e5df] px-5 py-6 space-y-5 animate-in fade-in duration-150">
           <div className="flex flex-col space-y-4 text-base font-semibold tracking-tight text-[#121211]">
-            <button
+            <Link
+              to="/"
               onClick={() => handleLinkClick('/')}
-              className="text-left py-1 hover:text-[#d9381e] transition-colors"
+              className="text-left py-1 hover:text-[#d9381e] transition-colors block"
             >
               Home
-            </button>
-            <button
+            </Link>
+            <Link
+              to="/articles"
               onClick={() => handleLinkClick('/articles')}
-              className="text-left py-1 hover:text-[#d9381e] transition-colors"
+              className="text-left py-1 hover:text-[#d9381e] transition-colors block"
             >
               Latest Articles (10)
-            </button>
-            <button
+            </Link>
+            <Link
+              to="/categories"
               onClick={() => handleLinkClick('/categories')}
-              className="text-left py-1 hover:text-[#d9381e] transition-colors"
+              className="text-left py-1 hover:text-[#d9381e] transition-colors block"
             >
               Browse Categories
-            </button>
-            <button
+            </Link>
+            <Link
+              to="/about"
               onClick={() => handleLinkClick('/about')}
-              className="text-left py-1 hover:text-[#d9381e] transition-colors"
+              className="text-left py-1 hover:text-[#d9381e] transition-colors block"
             >
               About the Publication
-            </button>
+            </Link>
           </div>
 
           <div className="pt-4 border-t border-[#e6e5df] flex items-center justify-between">
