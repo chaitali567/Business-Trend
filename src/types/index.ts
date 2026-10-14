@@ -29,7 +29,12 @@ export interface ArticleSection {
 export interface Article {
   id: string;
   slug: string;
+  legacySlugs?: string[];
   title: string;
+  metaTitle: string;
+  metaDescription: string;
+  mainKeyword: string;
+  relatedKeywords: string[];
   shortDescription: string;
   category: Category;
   author: Author;

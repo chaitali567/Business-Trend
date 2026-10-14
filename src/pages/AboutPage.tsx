@@ -1,11 +1,17 @@
 import React from 'react';
 import { NewsletterBox } from '../components/NewsletterBox';
+import { SEOHead } from '../components/SEOHead';
 import { CheckCircle2, HelpCircle, Sparkles } from 'lucide-react';
 import { AUTHOR_CHAITALI } from '../data/articles';
 
 export const AboutPage: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
+      <SEOHead
+        title="About The Business Behind the Trend: Our Editorial Mission"
+        description="Learn about The Business Behind the Trend, founded by Chaitali Kalal. We explain why things blow up on TikTok and who makes money in plain English."
+        canonicalPath="/about"
+      />
       {/* Editorial Header */}
       <div className="space-y-3 border-b border-[#e6e5df] pb-8">
         <span className="text-[#d9381e] text-[11px] font-bold uppercase tracking-[0.16em] block">
@@ -119,6 +125,7 @@ export const AboutPage: React.FC = () => {
             <img
               src={AUTHOR_CHAITALI.avatar}
               alt={AUTHOR_CHAITALI.name}
+              loading="lazy"
               className="w-16 h-16 rounded-full object-cover shrink-0 border border-[#e6e5df]"
             />
             <div className="space-y-1">

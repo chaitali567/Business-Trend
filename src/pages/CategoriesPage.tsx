@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Article, Category } from '../types';
 import { CATEGORIES } from '../data/articles';
 import { ArticleCard } from '../components/ArticleCard';
+import { SEOHead } from '../components/SEOHead';
 import { Layers } from 'lucide-react';
 
 interface CategoriesPageProps {
@@ -75,8 +76,20 @@ export const CategoriesPage: React.FC<CategoriesPageProps> = ({
     navigate('/categories');
   };
 
+  const seoTitle = selectedCat
+    ? `${selectedCat} Case Studies: Business & Trend Analysis`
+    : 'Explore Viral Business Trends by Industry Category';
+  const seoDesc = selectedCat
+    ? `Explore our ${selectedCat} business trends case studies. Discover why products blow up, consumer psychology, and how brands make money in ${selectedCat}.`
+    : 'Browse our viral business trends directory across tech, food, fashion, and social media to understand consumer psychology and profitable virality.';
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12">
+      <SEOHead
+        title={seoTitle}
+        description={seoDesc}
+        canonicalPath={selectedCat ? `/categories/${encodeURIComponent(selectedCat)}` : '/categories'}
+      />
       {/* Editorial Header */}
       <div className="border-b border-[#e6e5df] pb-6 space-y-2">
         <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.16em] text-[#d9381e]">

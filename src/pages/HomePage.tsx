@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Article } from '../types';
 import { ArticleCard } from '../components/ArticleCard';
 import { NewsletterBox } from '../components/NewsletterBox';
+import { SEOHead } from '../components/SEOHead';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 
 interface HomePageProps {
@@ -27,27 +28,30 @@ export const HomePage: React.FC<HomePageProps> = ({
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  // Helper to match slug or legacySlug
+  const hasSlug = (a: Article, target: string) => a.slug === target || a.legacySlugs?.includes(target);
+
   // Featured lead story (Matcha)
-  const featuredArticle = articles.find((a) => a.slug === 'why-is-matcha-suddenly-everywhere') || articles[0];
+  const featuredArticle = articles.find((a) => hasSlug(a, 'why-is-matcha-so-popular')) || articles[0];
 
   // SECTION 1: TRENDING NOW (Matcha, Stanley, Labubu)
   const trendingArticles = articles.filter((a) =>
-    ['how-labubu-became-a-global-obsession', 'why-does-everyone-want-a-stanley'].includes(a.slug)
+    ['why-is-labubu-so-popular', 'why-stanley-cups-are-popular'].some((s) => hasSlug(a, s))
   );
 
   // SECTION 2: THE BUSINESS BEHIND IT (Stanley, Subscriptions)
   const businessArticles = articles.filter((a) =>
-    ['why-does-everyone-want-a-stanley', 'why-is-everything-becoming-a-subscription'].includes(a.slug)
+    ['why-stanley-cups-are-popular', 'why-everything-is-a-subscription'].some((s) => hasSlug(a, s))
   );
 
   // SECTION 3: WHY WE BUY (Consumer psychology: Labubu, Scarcity Drops, Gen Z)
   const whyWeBuyArticles = articles.filter((a) =>
-    ['how-labubu-became-a-global-obsession', 'why-limited-edition-products-sell-so-fast', 'why-brands-are-obsessed-with-gen-z'].includes(a.slug)
+    ['why-is-labubu-so-popular', 'why-limited-edition-drops-sell-out', 'why-brands-target-gen-z'].some((s) => hasSlug(a, s))
   );
 
   // SECTION 4: INTERNET MADE IT BIG (Going Viral, Influencer businesses)
   const internetArticles = articles.filter((a) =>
-    ['the-business-of-going-viral', 'how-influencers-became-businesses'].includes(a.slug)
+    ['how-things-go-viral-online', 'how-influencer-brands-make-money'].some((s) => hasSlug(a, s))
   );
 
   // SECTION 5: LATEST STORIES (All 10 numbered overview)
@@ -55,6 +59,11 @@ export const HomePage: React.FC<HomePageProps> = ({
 
   return (
     <div className="space-y-16 sm:space-y-24 pb-16">
+      <SEOHead
+        title="Business Behind Popular Trends: Why Things Go Viral"
+        description="Discover the business behind popular trends. Learn why products blow up on TikTok, who gets rich, and real business trends examples in plain English."
+        canonicalPath="/"
+      />
       {/* 1. EDITORIAL HERO SECTION */}
       <section className="border-b border-[#e6e5df] pt-8 sm:pt-12 pb-12 sm:pb-16 bg-[#fbfbfa]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -78,7 +87,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             {/* Editorial Descriptor & CTA */}
             <div className="lg:col-span-4 space-y-4 lg:border-l lg:border-[#e6e5df] lg:pl-8 pb-1">
               <p className="text-stone-600 text-sm leading-relaxed">
-                A digital publication analyzing the business models, evolutionary psychology, marketing mechanics, and creator economies behind today’s cultural obsessions.
+                Discover the <strong>business behind popular trends</strong>. An editorial publication breaking down why products blow up on TikTok, consumer psychology, and real-world <strong>business trends examples</strong> in plain English.
               </p>
 
               <div className="flex items-center gap-4 pt-1">
@@ -122,26 +131,36 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </section>
 
-      {/* 3. 01 / TRENDING NOW */}
+      {/* 3. 01 / WHY DO THINGS BECOME POPULAR? */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="space-y-6">
-          <div className="flex items-end justify-between pb-3 border-b border-[#e6e5df]">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between pb-3 border-b border-[#e6e5df] gap-3">
             <div className="space-y-1">
               <span className="text-[11px] font-mono uppercase tracking-[0.16em] text-[#d9381e] font-bold block">
-                01 / Focus
+                01 / Virality & Demand
               </span>
               <h2 className="font-display text-2xl sm:text-3xl text-[#121211] uppercase tracking-tight">
-                Trending Now
+                Why do things become popular?
               </h2>
             </div>
             <Link
               to="/categories/Viral%20Trends"
               onClick={() => handleNav('/categories/Viral%20Trends')}
-              className="text-xs font-semibold text-stone-500 hover:text-[#d9381e] transition-colors flex items-center gap-1"
+              className="text-xs font-semibold text-stone-500 hover:text-[#d9381e] transition-colors flex items-center gap-1 shrink-0"
             >
               <span>View Viral Index</span>
               <ArrowUpRight className="w-3 h-3" />
             </Link>
+          </div>
+
+          {/* Short direct answer for AEO */}
+          <div className="p-4 bg-white border border-[#e6e5df] rounded-[2px] space-y-2">
+            <p className="text-sm font-semibold text-stone-900 border-l-2 border-[#d9381e] pl-3 py-0.5">
+              Things become popular when cultural timing, algorithmic amplification, and status signaling align—turning everyday objects into social currency.
+            </p>
+            <p className="text-xs sm:text-sm text-stone-600 leading-relaxed pl-3">
+              Explore the <strong>business behind popular trends</strong> to see why products suddenly dominate feeds. From viral tumblers to blind-box monsters, demand isn't random luck—it is engineered through consumer psychology and viral loops. Study our deep-dive <strong>business behind popular trends examples</strong> below.
+            </p>
           </div>
 
           {/* Asymmetrical 2-column: 1 Horizontal Lead + 1 Numbered list */}
@@ -174,20 +193,30 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </section>
 
-      {/* 4. 02 / THE BUSINESS BEHIND IT */}
+      {/* 4. 02 / WHO MAKES MONEY FROM POPULAR TRENDS? */}
       <section className="bg-stone-50/80 border-y border-[#e6e5df] py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-          <div className="flex items-end justify-between pb-3 border-b border-[#e6e5df]">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between pb-3 border-b border-[#e6e5df] gap-3">
             <div className="space-y-1">
               <span className="text-[11px] font-mono uppercase tracking-[0.16em] text-[#d9381e] font-bold block">
-                02 / Strategy
+                02 / Strategy & Profits
               </span>
               <h2 className="font-display text-2xl sm:text-3xl text-[#121211] uppercase tracking-tight">
-                The Business Behind It
+                Who makes money from popular trends?
               </h2>
             </div>
-            <p className="hidden md:block text-xs text-stone-500 max-w-xs text-right">
+            <p className="text-xs text-stone-500 max-w-xs sm:text-right">
               P&L balance-sheets, recurring subscription valuations, and agile fast-follow supply networks.
+            </p>
+          </div>
+
+          {/* Short direct answer for AEO */}
+          <div className="p-4 bg-white border border-[#e6e5df] rounded-[2px] space-y-2">
+            <p className="text-sm font-semibold text-stone-900 border-l-2 border-[#d9381e] pl-3 py-0.5">
+              The primary winners are agile boutique manufacturers operating on 80%+ gross margins, fast-following brands, and creator-founders leveraging zero-CAC audience distribution.
+            </p>
+            <p className="text-xs sm:text-sm text-stone-600 leading-relaxed pl-3">
+              While legacy corporations often react too late, agile operators turn short-lived social attention into durable cash flow. These actionable <strong>business trends examples</strong> break down the pricing models and margins behind modern hype.
             </p>
           </div>
 

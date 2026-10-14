@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { Article } from '../types';
 import { CATEGORIES } from '../data/articles';
 import { ArticleCard } from '../components/ArticleCard';
+import { SEOHead } from '../components/SEOHead';
 import { Search, Filter, SlidersHorizontal, X, Calendar } from 'lucide-react';
 
 interface ArticlesPageProps {
@@ -59,6 +60,11 @@ export const ArticlesPage: React.FC<ArticlesPageProps> = ({
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
+      <SEOHead
+        title="All Business Trends Case Studies & Cultural Reports"
+        description="Explore all business trends case studies, investigative reports, and market analyses explaining why products blow up and who makes money online."
+        canonicalPath="/articles"
+      />
       {/* Editorial Header */}
       <div className="border-b border-[#e6e5df] pb-6 space-y-2">
         <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.16em] text-[#d9381e]">

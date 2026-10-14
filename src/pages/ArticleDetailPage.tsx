@@ -4,6 +4,7 @@ import { Article } from '../types';
 import { ARTICLES } from '../data/articles';
 import { ShareToolbar } from '../components/ShareToolbar';
 import { ArticleCard } from '../components/ArticleCard';
+import { SEOHead } from '../components/SEOHead';
 import { ArrowLeft, Clock, Calendar, CheckCircle2, Lightbulb, TrendingUp, BookOpen } from 'lucide-react';
 
 interface ArticleDetailPageProps {
@@ -27,19 +28,14 @@ export const ArticleDetailPage: React.FC<ArticleDetailPageProps> = ({
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
-  const article = propArticle || allArticles.find((a) => a.slug === slug);
+  const article =
+    propArticle ||
+    allArticles.find((a) => a.slug === slug || a.legacySlugs?.includes(slug || ''));
 
   const [activeSection, setActiveSection] = useState<string>('');
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
-    if (article) {
-      document.title = `${article.title} — The Business Behind the Trend`;
-      const metaDesc = document.querySelector('meta[name="description"]');
-      if (metaDesc) {
-        metaDesc.setAttribute('content', article.shortDescription);
-      }
-    }
   }, [article]);
 
   useEffect(() => {
@@ -109,6 +105,16 @@ export const ArticleDetailPage: React.FC<ArticleDetailPageProps> = ({
 
   return (
     <article className="pb-24">
+      <SEOHead
+        title={article.metaTitle || article.title}
+        description={article.metaDescription || article.shortDescription}
+        canonicalPath={`/${article.slug}`}
+        ogImage={typeof article.heroImage === 'string' ? article.heroImage : undefined}
+        ogType="article"
+        publishedDate={article.publishedDate}
+        authorName={article.author.name}
+      />
+
       {/* Editorial Header Section */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-12 space-y-6">
         {/* Breadcrumb Navigation */}
@@ -189,6 +195,7 @@ export const ArticleDetailPage: React.FC<ArticleDetailPageProps> = ({
             <img
               src={article.heroImage}
               alt={article.heroImageAlt}
+              loading="lazy"
               className="w-full h-full object-cover"
             />
           </div>
